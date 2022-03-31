@@ -17,9 +17,9 @@ class Tasks extends StatelessWidget {
     return Scaffold(
       body: BlocProvider(
         create: (context) => TasksBloc(),
-        child: const Body(),
+        child: const Center(child: CustomCard(child: Body())),
       ),
-      backgroundColor: const Color.fromARGB(255, 110, 111, 189),
+      backgroundColor: const Color.fromARGB(255, 115, 110, 189),
     );
   }
 }
@@ -31,46 +31,47 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: CustomCard(
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(bottom: 20),
-              child: const Text(
-                'BLOC TODOS',
-                style: TextStyle(
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 9, 4, 71)),
-              ),
-            ),
-            TaskInput(
-              onSubmit: (s) {
-                context.read<TasksBloc>().add(
-                    TaskAddedEvent(task: TaskModel(content: s, done: false)));
-              },
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            Expanded(
-              child: BlocBuilder<TasksBloc, TasksState>(
-                builder: (context, state) {
-                  return ListView.separated(
-                    key: key,
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: state.stateData.tasks.length,
-                    padding: const EdgeInsets.all(10),
-                    itemBuilder: (c, i) => _buildTask(c, i, state),
-                    separatorBuilder: (_, __) => const SizedBox(height: 10),
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.only(bottom: 20),
+          child: const Text(
+            'BLOC TODOS',
+            style: TextStyle(
+                fontSize: 35,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 9, 4, 71)),
+          ),
+        ),
+        TaskInput(
+          onSubmit: (s) {
+            context
+                .read<TasksBloc>()
+                .add(TaskAddedEvent(task: TaskModel(content: s, done: false)));
+          },
+        ),
+        const SizedBox(
+          height: 25,
+        ),
+        Expanded(
+          child: BlocBuilder<TasksBloc, TasksState>(
+            builder: (context, state) {
+              return ListView.separated(
+                key: key,
+                physics: const BouncingScrollPhysics(),
+                itemCount: state.stateData.tasks.length,
+                padding: const EdgeInsets.all(10),
+                itemBuilder: (c, i) => _buildTask(c, i, state),
+                separatorBuilder: (context, i) {
+                  return const SizedBox(
+                    height: 10,
                   );
                 },
-              ),
-            )
-          ],
-        ),
-      ),
+              );
+            },
+          ),
+        )
+      ],
     );
   }
 
