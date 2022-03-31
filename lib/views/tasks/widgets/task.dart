@@ -23,8 +23,8 @@ class Task extends StatelessWidget {
         duration: const Duration(milliseconds: 250),
         decoration: BoxDecoration(
           color: done
-              ? const Color.fromARGB(255, 160, 168, 243)
-              : const Color.fromARGB(255, 236, 236, 236),
+              ? const Color.fromARGB(255, 160, 243, 208)
+              : const Color.fromARGB(255, 245, 245, 245),
           borderRadius: const BorderRadius.all(Radius.circular(10)),
         ),
         child: Material(
